@@ -1,0 +1,99 @@
+﻿@model Lastt.Models.Employee
+
+@{
+    ViewData["Title"] = "SignUp";
+    
+}
+
+
+<h1>Register Employee</h1>
+already a user??<a asp-controller="Employee" asp-action="Login">Login</a>
+<hr />
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="SignUp" class="signup-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-group-inline">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label">First Name</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label">Last Name</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">Username</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                <div><label class="">@ViewBag.Notification</label></div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" id="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input id="ConfirmPassword" type="password" class="form-control" />
+                <div style="margin-top: 7px;" id="CheckPasswordMatch"></div>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .signup-form {
+        width: 90%;
+        margin: auto;
+    }
+
+    .form-group-inline {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .form-group-inline .form-group {
+            width: 48%;
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#ConfirmPassword").on('keyup', function () {
+            var password = $("#Password").val();
+            var confirmPassword = $("#ConfirmPassword").val();
+            if (password != confirmPassword)
+                $("#CheckPasswordMatch").html("Password does not match !").css("color", "red");
+            else
+                $("#CheckPasswordMatch").html("Password match !").css("color", "green");
+        });
+    });
+</script>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Employee>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="">Employee App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserAction">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyFriends">See All Relations</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div>
+               
+                <a class="btn text-decoration-underline" asp-area="" asp-controller="Home" asp-action="IndividualData">@ViewBag.username</a>
+               
+                <a class="btn btn-danger" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<h2>Add Friends</h2>
+
+
+<br />
+<a asp-controller="Home" asp-action="MyFriends" class="btn btn-primary">My Friends</a>
+<br />
+<br />
+<table class="table table-bordered table-stripped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                UserName
+            </th>
+            <th>
+                PhoneNumber
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>
+                    @employee.FirstName @employee.LastName
+                </td>
+                <td>
+                    @employee.Email
+                </td>
+                <td>
+                    @employee.UserName
+                </td>
+                <td>
+                    @employee.PhoneNumber
+                </td>
+                <td>
+                    <!-- Add friend button -->
+                    <form asp-controller="Home" asp-action="AddFriend" method="post">
+                        <input type="hidden" name="empId1" value="@ViewBag.userId" />
+                        <input type="hidden" name="empId2" value="@employee.EmpId" />
+                        <button type="submit" class="btn btn-primary">Add Friend</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

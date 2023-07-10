@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EmployeeRelation>
+
+@{
+    ViewData["Title"] = "All Relations";
+
+}
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="">Employee App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminAction">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="ShowAllRelations">See All Relations</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <a class="btn btn-danger" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="col-6">
+    <h2 class="text-primary">All Relations</h2>
+</div>
+<div class="text-end">
+    <a asp-controller="Home" asp-action="AdminAction" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Back
+    </a>
+</div>
+
+
+<div class="container p-3">
+    <table class="table table-bordered table-stripped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Employee Name
+                </th>
+                <th>
+                    Friends
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var (groupedRelations, index) in Model.GroupBy(rel => rel.Employee1).Select((group, index) => (group, index + 1)))
+            {
+                <tr>
+                    <td rowspan="@groupedRelations.Count()">
+                        @index
+                    </td>
+                    <td rowspan="@groupedRelations.Count()">
+                        @groupedRelations.First().Employee1.FirstName @groupedRelations.First().Employee1.LastName
+                    </td>
+                    <td>
+                    @foreach (var relation in groupedRelations)
+                    {
+                        <li>
+                            @relation.Employee2.FirstName @relation.Employee2.LastName
+                            </li>
+                    }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

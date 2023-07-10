@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Employee>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="">Employee App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserAction">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyFriends">See All Relations</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div>
+
+                <a class="btn text-decoration-underline" asp-area="" asp-controller="Home" asp-action="IndividualData">@ViewBag.username</a>
+
+                <a class="btn btn-danger" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<h1>Users</h1>
+
+
+<br />
+
+@{
+    var loggedInUser = Model.FirstOrDefault(emp => emp.UserName == ViewBag.username);
+}
+
+@if (loggedInUser != null)
+{
+    <form id="updateForm" method="post" asp-action="UpdateEmployee">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="FirstName" class="form-control" value="@loggedInUser.FirstName">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="LastName" class="form-control" value="@loggedInUser.LastName">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="Email" class="form-control" value="@loggedInUser.Email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="Password" class="form-control" value="@loggedInUser.Password">
+        </div>
+        <div class="form-group">
+            <label for="cpassword">Confirm Password</label>
+            <input type="password" id="cpassword" name="cpassword" class="form-control">
+            <div style="margin-top: 7px;" id="CheckPasswordMatch"></div>
+        </div>
+        <div class="form-group">
+            <label for="userName">Username</label>
+            <input type="text" id="userName" name="UserName" class="form-control" value="@loggedInUser.UserName">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" name="PhoneNumber" class="form-control" value="@loggedInUser.PhoneNumber">
+        </div>
+    </form>
+
+    <button id="updateButton" class="btn btn-primary">Update</button>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#updateButton").click(function () {
+                $("#updateForm").submit();
+            });
+        });
+   
+     $(document).ready(function () {
+         $("#cpassword").on('keyup', function () {
+             var password = $("#password").val();
+             var confirmPassword = $("#cpassword").val();
+             if (password != confirmPassword)
+                 $("#CheckPasswordMatch").html("Password does not match !").css("color", "red");
+             else
+                 $("#CheckPasswordMatch").html("Password match !").css("color", "green");
+         });
+     });
+</script>
+}
